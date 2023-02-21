@@ -10,7 +10,7 @@ import { NavButton } from './StyledComponents/NavButton';
 function App() {
   return (
     <Stack>
-      <Stack direction='row' spacing={5} justifyContent='center'>
+      <Stack direction='row' spacing={5} justifyContent='space-evenly' p={4}>
         <NavButton component={Link} to='/' variant='text'>All Words</NavButton>
         <NavButton component={Link} to='/memorized' variant='text'>Review</NavButton>
         <NavButton component={Link} to='/quiz' variant='text'>Quiz Me</NavButton>
