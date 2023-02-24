@@ -6,6 +6,7 @@ import Home from './Pages/Home';
 import MemorizedWords from './Pages/MemorizedWords';
 import Quiz from './Pages/Quiz';
 import { NavButton } from './StyledComponents/NavButton';
+import Signin from './Pages/Signin';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/memorized' element={<MemorizedWords />} />
         <Route path='/quiz' element={<Quiz />} />
+        <Route path='/signin' element={<Signin />} />
       </Routes>
     </Stack>
   )
