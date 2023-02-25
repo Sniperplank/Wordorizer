@@ -1,11 +1,63 @@
-import React from 'react'
+import { Box, CircularProgress, Stack, Typography } from '@mui/material'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import WordCard from '../components/WordCard'
+import AddIcon from '@mui/icons-material/Add';
 import { useAuth } from '../contexts/AuthContext'
+import { StyledButton } from '../StyledComponents/StyledButton'
+import { StyledInput } from '../StyledComponents/StyledInput';
+import NewWordModal from '../components/NewWordModal';
+import { useLocation } from 'react-router-dom';
 
 function Home() {
+    const [isNWModalOpen, setIsNWModalOpen] = useState(false)
     const { user, setUser } = useAuth()
+    const [words, setWords] = useState({})
+    const [update, setUpdate] = useState(0)
+    const location = useLocation()
+
+
+    const updatePage = () => {
+        setUpdate(prev => prev + 1)
+    }
+
+    useEffect(() => {
+        async function getWords() {
+            const wordsData = await axios.get('http://localhost:5000/word?userId=' + user?.result._id)
+            setWords(wordsData.data)
+        }
+        getWords()
+    }, [update, location])
 
     return (
-        <div>{user?.result.name}</div>
+        <Box p={{ xs: 1, sm: 10 }} >
+            {
+                user ?
+                    <>
+                        <Stack direction='row' justifyContent='space-evenly'>
+                            <StyledInput variant='outlined' label='Search' type='search' sx={{ width: '50%' }} />
+                            <StyledButton onClick={() => setIsNWModalOpen(true)} variant='contained' color='primary' startIcon={<AddIcon />} sx={{ height: 50, textTransform: 'none' }}>New Word</StyledButton>
+                        </Stack>
+                        <NewWordModal open={isNWModalOpen} onClose={() => setIsNWModalOpen(false)} update={updatePage} />
+                        {
+                            !words.length ?
+                                <CircularProgress size={50} sx={{ m: 10 }} />
+                                : (
+                                    <Stack spacing={5} sx={{ mt: 10 }}>
+                                        {
+                                            Object.entries(words).map(([key, value]) => {
+                                                return (
+                                                    <WordCard key={key} word={value} />
+                                                )
+                                            })
+                                        }
+                                    </Stack>
+                                )
+                        }
+                    </>
+                    : <Typography variant='h1'>Sign in to see words</Typography>
+            }
+        </Box>
     )
 }
 

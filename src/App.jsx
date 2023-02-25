@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom'
 import { Stack } from '@mui/material'
 import './App.css'
@@ -7,16 +7,23 @@ import MemorizedWords from './Pages/MemorizedWords';
 import Quiz from './Pages/Quiz';
 import { NavButton } from './StyledComponents/NavButton';
 import Signin from './Pages/Signin';
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
 
 function App() {
   const { user, setUser } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const logout = () => {
     localStorage.clear()
     setUser(null)
     navigate('/')
   }
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem('profile')))
+  }, [location])
 
   return (
     <Stack>
