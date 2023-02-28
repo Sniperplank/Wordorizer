@@ -10,10 +10,20 @@ import { StyledInput } from '../StyledComponents/StyledInput'
 function NewWordModal({ open, onClose, update }) {
     const { user } = useAuth()
     const [wordData, setWordData] = useState({ word: '', definition: '', userId: user?.result._id })
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
 
     const addWord = async () => {
-        await axios.post('http://localhost:5000/word', wordData)
-        update()
+        try {
+            await axios.post('http://localhost:5000/word', wordData)
+            setError('')
+            setSuccess('Word added')
+            update()
+        } catch (error) {
+            console.log(error)
+            setSuccess('')
+            setError(error.response.data.message)
+        }
     }
 
     const handleChange = (e) => {
@@ -32,11 +42,16 @@ function NewWordModal({ open, onClose, update }) {
                 </Stack>
                 <Stack direction='row' spacing={2} marginTop={3} justifyContent='right'>
                     <Button variant='contained' color='primary' onClick={() => {
-                        onClose()
                         addWord()
                     }}>Add</Button>
-                    <Button variant='contained' color='error' onClick={onClose}>Cancel</Button>
+                    <Button variant='contained' color='error' onClick={() => {
+                        onClose()
+                        setSuccess('')
+                        setError('')
+                    }}>Close</Button>
                 </Stack>
+                <Typography variant='h6' color='green'>{success}</Typography>
+                <Typography variant='h6' color='error'>{error}</Typography>
             </ModalContent>
         </>,
         document.getElementById('portal')
