@@ -1,24 +1,18 @@
 import { Stack, Typography } from '@mui/material'
 import React from 'react'
 import { CardBox } from '../StyledComponents/CardBox'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { StyledIconButton } from '../StyledComponents/StyledIconButton';
 import axios from 'axios';
 
-function WordCard({ word, onClick, isClicked, update }) {
+function MemorizedWordCard({ word, onClick, isClicked, update }) {
     const openInNewTab = (url) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
     }
     const deleteWord = async () => {
-        await axios.delete('http://localhost:5000/word/' + word._id)
-        update()
-    }
-    const finishWord = async () => {
-        await axios.post('http://localhost:5000/word/memorized', word)
-        await axios.delete('http://localhost:5000/word/' + word._id)
+        await axios.delete('http://localhost:5000/word/memorized/' + word._id)
         update()
     }
     return (
@@ -30,12 +24,6 @@ function WordCard({ word, onClick, isClicked, update }) {
                 {
                     isClicked &&
                     <Stack direction='row' spacing={2}>
-                        <StyledIconButton onClick={(event) => {
-                            event.stopPropagation()
-                            finishWord()
-                        }} >
-                            <CheckCircleIcon color='primary' />
-                        </StyledIconButton>
                         <StyledIconButton onClick={(event) => {
                             event.stopPropagation()
                             openInNewTab('https://www.google.com/search?q=' + word.word + '+meaning')
@@ -55,4 +43,4 @@ function WordCard({ word, onClick, isClicked, update }) {
     )
 }
 
-export default WordCard
+export default MemorizedWordCard

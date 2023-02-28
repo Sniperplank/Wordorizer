@@ -14,7 +14,6 @@ function Home() {
     const { user, setUser } = useAuth()
     const [words, setWords] = useState({})
     const [update, setUpdate] = useState(0)
-    const [isClicked, setIsClicked] = useState(false)
     const [wordStates, setWordStates] = useState({});
     const location = useLocation()
 
