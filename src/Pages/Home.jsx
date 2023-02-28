@@ -14,8 +14,29 @@ function Home() {
     const { user, setUser } = useAuth()
     const [words, setWords] = useState({})
     const [update, setUpdate] = useState(0)
+    const [isClicked, setIsClicked] = useState(false)
+    const [wordStates, setWordStates] = useState({});
     const location = useLocation()
 
+    function handleClick(key) {
+        setWordStates(prevWordStates => {
+            const isClicked = prevWordStates[key];
+            // Toggle the isClicked value for the clicked key
+            const newState = {
+                ...prevWordStates,
+                [key]: !isClicked
+            };
+            // Set all values to false except for the clicked key if it was just clicked
+            if (!isClicked) {
+                Object.keys(newState).forEach(k => {
+                    if (k !== key) {
+                        newState[k] = false;
+                    }
+                });
+            }
+            return newState;
+        })
+    }
 
     const updatePage = () => {
         setUpdate(prev => prev + 1)
@@ -47,7 +68,7 @@ function Home() {
                                         {
                                             Object.entries(words).map(([key, value]) => {
                                                 return (
-                                                    <WordCard key={key} word={value} />
+                                                    <WordCard key={key} word={value} onClick={() => handleClick(key)} isClicked={wordStates[key]} />
                                                 )
                                             })
                                         }
