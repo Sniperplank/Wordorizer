@@ -68,7 +68,7 @@ function Home() {
                                         {
                                             Object.entries(words).map(([key, value]) => {
                                                 return (
-                                                    <WordCard key={key} word={value} onClick={() => handleClick(key)} isClicked={wordStates[key]} />
+                                                    <WordCard key={key} word={value} onClick={() => handleClick(key)} isClicked={wordStates[key]} update={updatePage} />
                                                 )
                                             })
                                         }
