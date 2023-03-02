@@ -75,9 +75,16 @@ function Quiz() {
                         <Checkbox sx={{ color: '#b6b4b4' }} />
                     </Stack>
                     <StyledButton variant='contained' onClick={() => {
-                        setStartQuiz(true)
-                        handleRandomize()
+                        if (words.length > 0) {
+                            setStartQuiz(true)
+                            handleRandomize()
+                            setScore(0)
+                            setError('')
+                        } else {
+                            setError('You must have memorized words to start a quiz')
+                        }
                     }}>Start quiz</StyledButton>
+                    <Typography variant='h5' color='error'>{error}</Typography>
                 </Stack>
             }
             {
