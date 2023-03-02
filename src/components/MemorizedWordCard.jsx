@@ -18,9 +18,9 @@ function MemorizedWordCard({ word, onClick, isClicked, update }) {
     return (
         <CardBox onClick={onClick} sx={{ justifyContent: 'center', alignItems: 'center' }}>
             <Stack direction='row' spacing={5}>
-                <Typography variant='h5' color='primary'>{word.word}</Typography>
+                <Typography variant='h5' color='primary' onClick={(event) => { event.stopPropagation() }}>{word.word}</Typography>
                 <Typography variant='h5'>:</Typography>
-                <Typography variant='h5'>{word.definition}</Typography>
+                <Typography variant='h5' onClick={(event) => { event.stopPropagation() }}>{word.definition}</Typography>
                 {
                     isClicked &&
                     <Stack direction='row' spacing={2}>
