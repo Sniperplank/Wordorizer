@@ -1,7 +1,6 @@
 import { Box, CircularProgress, Stack, Typography } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import WordCard from '../components/WordCard'
 import { useAuth } from '../contexts/AuthContext'
 import { StyledInput } from '../StyledComponents/StyledInput';
 import { useLocation } from 'react-router-dom';
