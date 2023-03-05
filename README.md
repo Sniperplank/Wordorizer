@@ -1,3 +1,3 @@
 ﻿# Wordorizer
 
-https://wordorizor.vercel.app/
+https://wordorizer.vercel.app/
