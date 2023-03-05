@@ -86,14 +86,14 @@ function Quiz() {
             {
                 !startQuiz &&
                 <Stack spacing={5} sx={{ alignItems: 'center' }}>
-                    <Stack direction='row' spacing={3}>
+                    {/* <Stack direction='row' spacing={3}>
                         <Typography variant='h4'>Number of words in quiz:</Typography>
                         <StyledInput type='number' variant='outlined' />
                     </Stack>
                     <Stack direction='row' spacing={3}>
                         <Typography variant='h4'>Include all memorized words:</Typography>
                         <Checkbox sx={{ color: '#b6b4b4' }} />
-                    </Stack>
+                    </Stack> */}
                     <StyledButton variant='contained' onClick={() => {
                         if (words.length > 0) {
                             setStartQuiz(true)

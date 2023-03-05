@@ -15,6 +15,7 @@ function Home() {
     const [words, setWords] = useState({})
     const [update, setUpdate] = useState(0)
     const [wordStates, setWordStates] = useState({});
+    const [searchQuery, setSearchQuery] = useState('');
     const location = useLocation()
 
     function handleClick(key) {
@@ -37,6 +38,12 @@ function Home() {
         })
     }
 
+    const filteredWords = Object.entries(words).filter(word => {
+        return (
+            word[1].word.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+    })
+
     const updatePage = () => {
         setUpdate(prev => prev + 1)
     }
@@ -55,7 +62,7 @@ function Home() {
                 user ?
                     <>
                         <Stack direction='row' justifyContent='space-evenly'>
-                            <StyledInput variant='outlined' label='Search' type='search' sx={{ width: '50%' }} />
+                            <StyledInput variant='outlined' label='Search' type='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} sx={{ width: '50%' }} inputProps={{ autoComplete: 'off' }} />
                             <StyledButton onClick={() => setIsNWModalOpen(true)} variant='contained' color='primary' startIcon={<AddIcon />} sx={{ height: 50, textTransform: 'none' }}>New Word</StyledButton>
                         </Stack>
                         <NewWordModal open={isNWModalOpen} onClose={() => setIsNWModalOpen(false)} update={updatePage} />
@@ -65,7 +72,7 @@ function Home() {
                                 : (
                                     <Stack spacing={5} sx={{ mt: 10 }}>
                                         {
-                                            Object.entries(words).map(([key, value]) => {
+                                            filteredWords.map(([key, value]) => {
                                                 return (
                                                     <WordCard key={key} word={value} onClick={() => handleClick(key)} isClicked={wordStates[key]} update={updatePage} />
                                                 )

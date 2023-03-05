@@ -11,6 +11,7 @@ function MemorizedWords() {
     const [words, setWords] = useState({})
     const [update, setUpdate] = useState(0)
     const [wordStates, setWordStates] = useState({});
+    const [searchQuery, setSearchQuery] = useState('');
     const location = useLocation()
 
     function handleClick(key) {
@@ -33,6 +34,12 @@ function MemorizedWords() {
         })
     }
 
+    const filteredWords = Object.entries(words).filter(word => {
+        return (
+            word[1].word.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+    })
+
     const updatePage = () => {
         setUpdate(prev => prev + 1)
     }
@@ -51,7 +58,7 @@ function MemorizedWords() {
                 user ?
                     <>
                         <Stack direction='row' justifyContent='space-evenly'>
-                            <StyledInput variant='outlined' label='Search' type='search' sx={{ width: '50%' }} />
+                            <StyledInput variant='outlined' label='Search' type='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} sx={{ width: '50%' }} inputProps={{ autoComplete: 'off' }} />
                         </Stack>
                         {
                             !words.length ?
@@ -59,7 +66,7 @@ function MemorizedWords() {
                                 : (
                                     <Stack spacing={5} sx={{ mt: 10 }}>
                                         {
-                                            Object.entries(words).map(([key, value]) => {
+                                            filteredWords.map(([key, value]) => {
                                                 return (
                                                     <MemorizedWordCard key={key} word={value} onClick={() => handleClick(key)} isClicked={wordStates[key]} update={updatePage} />
                                                 )
