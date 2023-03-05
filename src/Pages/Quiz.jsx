@@ -17,7 +17,33 @@ function Quiz() {
     const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
     const [score, setScore] = useState(0)
     const [error, setError] = useState('')
+    const [randomWord, setRandomWord] = useState('');
     const location = useLocation()
+
+    useEffect(() => {
+        async function getWords() {
+            const wordsData = await axios.get('http://localhost:5000/word/memorized?userId=' + user?.result._id)
+            setWords(wordsData.data)
+        }
+        getWords()
+    }, [update, location])
+
+    useEffect(() => {
+        setRandomWord(getRandomWord(words));
+    }, [words]);
+
+    function getRandomWord(words) {
+        if (!words || !words.length) {
+            return '';
+        }
+        const randomIndex = Math.floor(Math.random() * words.length)
+        return words[randomIndex]
+    }
+
+    const handleNewWord = () => {
+        setRandomWord(getRandomWord(words))
+        setIsCorrectAnswer(false)
+    }
 
     const submitAnswer = event => {
         if (event.keyCode === 13) {
@@ -25,6 +51,7 @@ function Quiz() {
                 setError('')
                 setScore(prev => prev + 1)
                 handleRandomize()
+                handleNewWord()
             } else {
                 setError('Wrong Answer')
             }
@@ -36,6 +63,7 @@ function Quiz() {
             setError('')
             setScore(prev => prev + 1)
             handleRandomize()
+            handleNewWord()
         } else {
             setError('Wrong Answer')
         }
@@ -52,14 +80,6 @@ function Quiz() {
     const updatePage = () => {
         setUpdate(prev => prev + 1)
     }
-
-    useEffect(() => {
-        async function getWords() {
-            const wordsData = await axios.get('http://localhost:5000/word/memorized?userId=' + user?.result._id)
-            setWords(wordsData.data)
-        }
-        getWords()
-    }, [update, location])
 
     return (
         <Box p={{ xs: 1, sm: 10 }}>
@@ -88,10 +108,10 @@ function Quiz() {
                 </Stack>
             }
             {
-                startQuiz &&
+                startQuiz && randomWord &&
                 <Stack spacing={5}>
                     <Typography variant='h5'>{score}</Typography>
-                    {randomBool ? <WhatWord word={words[1]} onWordCorrectnessChange={handleAnswerCorrectness} submitAnswer={submitAnswer} /> : <WhatDefinition word={words[1]} onDefinitionCorrectnessChange={handleAnswerCorrectness} submitAnswer={submitAnswer} />}
+                    {randomBool ? <WhatWord word={randomWord} onWordCorrectnessChange={handleAnswerCorrectness} submitAnswer={submitAnswer} /> : <WhatDefinition word={randomWord} onDefinitionCorrectnessChange={handleAnswerCorrectness} submitAnswer={submitAnswer} />}
                     <Typography variant='h5' color='error'>{error}</Typography>
                     <StyledButton variant='contained' onClick={() => buttonSubmitAnswer()} sx={{ width: '20%', alignSelf: 'center' }}>Submit</StyledButton>
                     <StyledButton variant='contained' onClick={() => setStartQuiz(false)} sx={{ width: '20%', alignSelf: 'center' }}>Back</StyledButton>
