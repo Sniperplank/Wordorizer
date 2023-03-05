@@ -12,7 +12,7 @@ function MemorizedWordCard({ word, onClick, isClicked, update }) {
         if (newWindow) newWindow.opener = null
     }
     const deleteWord = async () => {
-        await axios.delete('http://localhost:5000/word/memorized/' + word._id)
+        await axios.delete('https://wordorizor-api.vercel.app/word/memorized/' + word._id)
         update()
     }
     return (

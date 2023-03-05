@@ -13,12 +13,12 @@ function WordCard({ word, onClick, isClicked, update }) {
         if (newWindow) newWindow.opener = null
     }
     const deleteWord = async () => {
-        await axios.delete('http://localhost:5000/word/' + word._id)
+        await axios.delete('https://wordorizor-api.vercel.app/word/' + word._id)
         update()
     }
     const finishWord = async () => {
-        await axios.post('http://localhost:5000/word/memorized', word)
-        await axios.delete('http://localhost:5000/word/' + word._id)
+        await axios.post('https://wordorizor-api.vercel.app/word/memorized', word)
+        await axios.delete('https://wordorizor-api.vercel.app/word/' + word._id)
         update()
     }
     return (

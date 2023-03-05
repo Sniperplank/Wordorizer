@@ -50,7 +50,7 @@ function Home() {
 
     useEffect(() => {
         async function getWords() {
-            const wordsData = await axios.get('http://localhost:5000/word?userId=' + user?.result._id)
+            const wordsData = await axios.get('https://wordorizor-api.vercel.app/word?userId=' + user?.result._id)
             setWords(wordsData.data)
         }
         getWords()

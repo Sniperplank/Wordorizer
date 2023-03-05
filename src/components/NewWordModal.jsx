@@ -15,7 +15,7 @@ function NewWordModal({ open, onClose, update }) {
 
     const addWord = async () => {
         try {
-            await axios.post('http://localhost:5000/word', wordData)
+            await axios.post('https://wordorizor-api.vercel.app/word', wordData)
             setError('')
             setSuccess('Word added')
             update()

@@ -46,7 +46,7 @@ function MemorizedWords() {
 
     useEffect(() => {
         async function getWords() {
-            const wordsData = await axios.get('http://localhost:5000/word/memorized?userId=' + user?.result._id)
+            const wordsData = await axios.get('https://wordorizor-api.vercel.app/word/memorized?userId=' + user?.result._id)
             setWords(wordsData.data)
         }
         getWords()
