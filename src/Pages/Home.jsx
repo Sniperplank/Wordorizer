@@ -62,7 +62,7 @@ function Home() {
                 user ?
                     <>
                         <Stack direction='row' justifyContent='space-evenly'>
-                            <StyledInput variant='outlined' label='Search' type='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} sx={{ width: '50%' }} inputProps={{ autoComplete: 'off' }} />
+                            <StyledInput variant='outlined' label={'Search ' + words.length + ' words'} type='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} sx={{ width: '50%' }} inputProps={{ autoComplete: 'off' }} />
                             <StyledButton onClick={() => setIsNWModalOpen(true)} variant='contained' color='primary' startIcon={<AddIcon />} sx={{ height: 50, textTransform: 'none' }}>New Word</StyledButton>
                         </Stack>
                         <NewWordModal open={isNWModalOpen} onClose={() => setIsNWModalOpen(false)} update={updatePage} />
