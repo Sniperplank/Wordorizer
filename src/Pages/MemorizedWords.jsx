@@ -58,7 +58,7 @@ function MemorizedWords() {
                 user ?
                     <>
                         <Stack direction='row' justifyContent='space-evenly'>
-                            <StyledInput variant='outlined' label='Search' type='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} sx={{ width: '50%' }} inputProps={{ autoComplete: 'off' }} />
+                            <StyledInput variant='outlined' label={'Search ' + words.length + ' words'} type='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} sx={{ width: '50%' }} inputProps={{ autoComplete: 'off' }} />
                         </Stack>
                         {
                             !words.length ?
