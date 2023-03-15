@@ -2,14 +2,12 @@ import { Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { StyledInput } from '../../StyledComponents/StyledInput'
 
-function WhatDefinition({ word, onDefinitionCorrectnessChange, submitAnswer }) {
+function WhatDefinition({ word, onDefinitionInputChange, submitAnswer }) {
     const [inputValue, setInputValue] = useState('')
-    const [isCorrect, setIsCorrect] = useState(false);
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
-        setIsCorrect(event.target.value === word.definition);
-        onDefinitionCorrectnessChange(event.target.value === word.definition);
+        onDefinitionInputChange(event.target.value);
     }
     return (
         <Stack spacing={10}>
