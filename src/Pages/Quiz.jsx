@@ -6,7 +6,6 @@ import WhatDefinition from '../components/quiz/WhatDefinition'
 import WhatWord from '../components/quiz/WhatWord'
 import { useAuth } from '../contexts/AuthContext'
 import { StyledButton } from '../StyledComponents/StyledButton'
-import { StyledInput } from '../StyledComponents/StyledInput'
 
 function Quiz() {
     const { user, setUser } = useAuth()
@@ -18,6 +17,7 @@ function Quiz() {
     const [score, setScore] = useState(0)
     const [error, setError] = useState('')
     const [randomWord, setRandomWord] = useState('');
+    const [definitionInputValue, setDefinitionInputValue] = useState('')
     const location = useLocation()
 
     useEffect(() => {
@@ -58,19 +58,38 @@ function Quiz() {
         }
     }
 
-    const buttonSubmitAnswer = event => {
-        if (isCorrectAnswer) {
-            setError('')
-            setScore(prev => prev + 1)
-            handleRandomize()
-            handleNewWord()
-        } else {
-            setError('Wrong Answer')
+    // const buttonSubmitAnswer = event => {
+    //     if (isCorrectAnswer) {
+    //         setError('')
+    //         setScore(prev => prev + 1)
+    //         handleRandomize()
+    //         handleNewWord()
+    //     } else {
+    //         setError('Wrong Answer')
+    //     }
+    // }
+
+    const submitDefinitionAnswer = async (event) => {
+        if (event.keyCode === 13) {
+            const response = await axios.get('https://wordorizor-api.vercel.app/definition/' + randomWord.word + '/' + definitionInputValue)
+            const answer = response.data.message
+            if (answer === 'Yes' || answer === 'Yes.') {
+                setError('')
+                setScore(prev => prev + 1)
+                handleRandomize()
+                handleNewWord()
+            } else {
+                setError('Wrong Answer')
+            }
         }
     }
 
     const handleAnswerCorrectness = (isCorrect) => {
         setIsCorrectAnswer(isCorrect)
+    }
+
+    const handleDefinitionInputChange = (value) => {
+        setDefinitionInputValue(value)
     }
 
     const handleRandomize = () => {
@@ -111,9 +130,10 @@ function Quiz() {
                 startQuiz && randomWord &&
                 <Stack spacing={5}>
                     <Typography variant='h5'>{score}</Typography>
-                    {randomBool ? <WhatWord word={randomWord} onWordCorrectnessChange={handleAnswerCorrectness} submitAnswer={submitAnswer} /> : <WhatDefinition word={randomWord} onDefinitionCorrectnessChange={handleAnswerCorrectness} submitAnswer={submitAnswer} />}
+                    {randomBool ? <WhatWord word={randomWord} onWordCorrectnessChange={handleAnswerCorrectness} submitAnswer={submitAnswer} /> :
+                        <WhatDefinition word={randomWord} onDefinitionInputChange={handleDefinitionInputChange} submitAnswer={submitDefinitionAnswer} />}
                     <Typography variant='h5' color='error'>{error}</Typography>
-                    <StyledButton variant='contained' onClick={() => buttonSubmitAnswer()} sx={{ width: '20%', alignSelf: 'center' }}>Submit</StyledButton>
+                    {/* <StyledButton variant='contained' onClick={() => buttonSubmitAnswer()} sx={{ width: '20%', alignSelf: 'center' }}>Submit</StyledButton> */}
                     <StyledButton variant='contained' onClick={() => setStartQuiz(false)} sx={{ width: '20%', alignSelf: 'center' }}>Back</StyledButton>
                 </Stack>
             }
