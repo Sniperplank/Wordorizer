@@ -89,7 +89,12 @@ function Home() {
                     <Stack spacing={10}>
                         <Typography variant='h1'>Sign in to see words</Typography>
                         <StyledButton variant='contained' component={Link} to='/signin' sx={{ width: '20%', alignSelf: 'center' }}>Sign In</StyledButton>
-                        <StyledButton variant='contained' sx={{ width: '20%', alignSelf: 'center' }} onClick={()=> {signin({email: 'test@gmail.com', password: '1234'}, navigate, setError)}}>Dummy Account</StyledButton>
+                        <StyledButton variant='contained' sx={{ width: '20%', alignSelf: 'center' }} onClick={() => {
+                            signin({ email: 'test@gmail.com', password: '1234' }, navigate, setError)
+                            setTimeout(function () {
+                                updatePage()
+                            }, 4000);
+                        }}>Dummy Account</StyledButton>
                         <Typography variant='h6' color='error'>{error}</Typography>
                     </Stack>
             }
