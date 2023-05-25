@@ -7,7 +7,8 @@ import { useAuth } from '../contexts/AuthContext'
 import { StyledButton } from '../StyledComponents/StyledButton'
 import { StyledInput } from '../StyledComponents/StyledInput';
 import NewWordModal from '../components/NewWordModal';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { signin } from '../actions/auth'
 
 function Home() {
     const [isNWModalOpen, setIsNWModalOpen] = useState(false)
@@ -17,6 +18,8 @@ function Home() {
     const [wordStates, setWordStates] = useState({});
     const [searchQuery, setSearchQuery] = useState('');
     const location = useLocation()
+    const [error, setError] = useState('')
+    const navigate = useNavigate()
 
     function handleClick(key) {
         setWordStates(prevWordStates => {
@@ -82,7 +85,13 @@ function Home() {
                                 )
                         }
                     </>
-                    : <Typography variant='h1'>Sign in to see words</Typography>
+                    :
+                    <Stack spacing={10}>
+                        <Typography variant='h1'>Sign in to see words</Typography>
+                        <StyledButton variant='contained' component={Link} to='/signin' sx={{ width: '20%', alignSelf: 'center' }}>Sign In</StyledButton>
+                        <StyledButton variant='contained' sx={{ width: '20%', alignSelf: 'center' }} onClick={()=> {signin({email: 'test@gmail.com', password: '1234'}, navigate, setError)}}>Dummy Account</StyledButton>
+                        <Typography variant='h6' color='error'>{error}</Typography>
+                    </Stack>
             }
         </Box>
     )
